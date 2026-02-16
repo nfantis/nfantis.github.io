@@ -1,0 +1,28 @@
+---
+layout: default
+title: Blog
+---
+
+<div class="blog-header">
+  <p class="section-label">Blog</p>
+  <h1 class="section-title">All posts</h1>
+  <p class="section-description">Writing about APIs, integration patterns, developer tooling, and lessons learned.</p>
+</div>
+
+<section class="section" style="padding-top: 0;">
+  {% if site.posts.size > 0 %}
+  <div class="posts-grid">
+    {% for post in site.posts %}
+    <a href="{{ post.url | relative_url }}" class="post-card">
+      <p class="post-card-date">{{ post.date | date: "%B %-d, %Y" }}</p>
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <p>Posts coming soon. Stay tuned.</p>
+  </div>
+  {% endif %}
+</section>

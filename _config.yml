@@ -1,1 +1,29 @@
-theme: jekyll-theme-minimal
+title: Nick Fantis
+description: API Architect, Java & Spring Developer, AI Enthusiast
+url: "https://nfantis.github.io"
+baseurl: ""
+
+markdown: kramdown
+highlighter: rouge
+permalink: /blog/:title/
+
+collections:
+  posts:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
