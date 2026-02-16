@@ -80,6 +80,45 @@
         navLinks.classList.toggle('open');
         navToggle.classList.toggle('open');
       });
+
+      // Add line numbers and copy buttons to code blocks
+      document.querySelectorAll('.highlight pre, .post-content pre').forEach(function(pre) {
+        var codeEl = pre.querySelector('code') || pre;
+        var lines = codeEl.innerHTML.replace(/\n$/, '').split('\n');
+        var numbered = lines.map(function(line, i) {
+          return '<span class="line"><span class="line-number">' + (i + 1) + '</span>' + line + '</span>';
+        }).join('');
+        codeEl.innerHTML = numbered;
+      });
+
+      document.querySelectorAll('.highlight pre, .post-content pre').forEach(function(pre) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'code-block';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.setAttribute('aria-label', 'Copy code');
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+        wrapper.appendChild(btn);
+
+        btn.addEventListener('click', function() {
+          var lines = pre.querySelectorAll('.line');
+          var code = Array.prototype.map.call(lines, function(line) {
+            var clone = line.cloneNode(true);
+            var num = clone.querySelector('.line-number');
+            if (num) num.remove();
+            return clone.textContent;
+          }).join('\n');
+          navigator.clipboard.writeText(code).then(function() {
+            btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+            setTimeout(function() {
+              btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+            }, 2000);
+          });
+        });
+      });
     })();
   </script>
 </body>
